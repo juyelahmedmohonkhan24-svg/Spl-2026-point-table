@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPL Season 05</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Roboto:wght@400;500;700;900&display=swap');
+
+        :root { 
+            --icc-blue: #001e3a;
+            --icc-gold: #d4a017;
+            --win-green: #1a7d1a;
+            --loss-red: #c62828;
+        }
+
+        body { font-family: 'Roboto', sans-serif; background-color: #cbd5e0; padding: 15px; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+
+        /* Admin Input UI */
+        .admin-header { display: flex; justify-content: space-between; align-items: center; background: var(--icc-blue); padding: 10px 15px; border-radius: 6px; color: white; margin-bottom: 15px; border-bottom: 3px solid var(--icc-gold); }
+        .admin-header img { width: 40px; height: 40px; border-radius: 50%; background: #fff; padding: 2px; }
+        .team-card { border: 1px solid #e2e8f0; padding: 8px; margin-bottom: 8px; border-radius: 6px; background: #f8fafc; }
+        .team-info { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+        .team-info img { width: 30px; height: 30px; border-radius: 50%; }
+        .add-btn { margin-left: auto; background: var(--icc-blue); color: white; border: none; padding: 4px 10px; border-radius: 3px; cursor: pointer; font-size: 10px; font-weight: bold; }
+        input { width: 55px; padding: 4px; border: 1px solid #cbd5e1; border-radius: 3px; text-align: center; font-size: 11px; font-weight: bold; margin: 2px; }
+
+        /* --- FINAL ULTRA COMPACT TABLE --- */
+        #captureArea { width: 850px; background: #fff; overflow: hidden; border: 1px solid #ddd; }
+        
+        .icc-header { 
+            background: var(--icc-blue); color: white; padding: 20px 15px; text-align: center;
+            border-bottom: 4px solid var(--icc-gold);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .icc-header img { width: 90px; height: 90px; border-radius: 50%; background: #fff; padding: 3px; }
+        .title-stack h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 42px; margin: 0; text-transform: uppercase; line-height: 1; letter-spacing: 0.5px; }
+        .title-stack h2 { font-size: 18px; color: var(--icc-gold); margin: 2px 0; letter-spacing: 4px; font-weight: 700; }
+        .title-stack .tagline { background: var(--icc-gold); color: #000; padding: 1px 15px; font-weight: 900; font-size: 14px; display: inline-block; margin-top: 5px; }
+
+        .icc-table { width: 100%; border-collapse: collapse; }
+        .icc-table th { background: #f1f5f9; color: #475569; padding: 8px 5px; font-size: 11px; text-transform: uppercase; font-weight: 800; border-bottom: 2px solid #e2e8f0; }
+        
+        .icc-table td { padding: 6px 5px; text-align: center; font-size: 16px; font-weight: 700; color: #1e293b; border-bottom: 1px solid #f1f5f9; }
+
+        .rank-col { width: 35px; color: #94a3b8; font-style: italic; font-size: 14px; }
+        
+        .team-col { display: flex; align-items: center; gap: 12px; text-align: left; padding-left: 15px; white-space: nowrap; overflow: hidden; }
+        .team-col img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+        .team-name-label { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; color: var(--icc-blue); text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; }
+
+        .top-rank { background: #fffef5 !important; }
+        .pts-col { background: rgba(0, 30, 58, 0.04); font-size: 18px !important; color: #000; }
+        .nrr-col { font-size: 15px; font-weight: 500; }
+
+        /* Color classes */
+        .win-cell { color: var(--win-green) !important; }
+        .loss-cell { color: var(--loss-red) !important; }
+
+        .btn-download { width: 100%; padding: 12px; background: #059669; color: white; border: none; border-radius: 5px; font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 15px; }
+        .icc-footer { background: var(--icc-blue); color: rgba(255,255,255,0.7); padding: 8px; text-align: center; font-size: 11px; border-top: 2px solid var(--icc-gold); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="admin-header">
+        <img src="https://i.ibb.co/7JnnPxRw/IMG-20260226-152000-780.jpg">
+        <div style="text-align: center;"><h4 style="margin:0">SATBARIA PREMIER LEAGUE 2026</h4></div>
+        <img src="https://i.ibb.co/Kjp8SvLJ/Kjp8SvLJ.png">
+    </div>
+
+    <div id="teamInputArea"></div>
+    <button class="btn-download" onclick="takeScreenshot()">DOWNLOAD POINT TABLE</button>
+
+    <div id="captureArea">
+        <div class="icc-header">
+            <img src="https://i.ibb.co/7JnnPxRw/IMG-20260226-152000-780.jpg">
+            <div class="title-stack">
+                <h1>SATBARIA PREMIER LEAGUE 2026</h1>
+                <h1 style="color:#F00C68">SEASON 05</h1>
+                <div class="tagline">POINTS TABLE</div>
+            </div>
+            <img src="https://i.ibb.co/Kjp8SvLJ/Kjp8SvLJ.png">
+        </div>
+
+        <table class="icc-table">
+            <thead>
+                <tr>
+                    <th width="40">POS</th>
+                    <th style="text-align:left; padding-left:40px;">TEAM SQUAD</th>
+                    <th width="50">PLD</th><th width="50">W</th><th width="50">L</th><th width="50">D</th><th width="70">PTS</th><th width="100">NRR</th>
+                </tr>
+            </thead>
+            <tbody id="standingsContent"></tbody>
+        </table>
+
+        <div class="icc-footer">OFFICIAL POINT TABLE 
+        | SATBARIA SOMAJ UNNOYON JUBO SHONGO</div>
+    </div>
+</div>
+
+<script>
+    // লোগো ইউআরএলগুলো এখানে সোয়াপ করা হয়েছে
+    const teamDatabase = [
+        { name: "Satbaria Super Star", logo: "https://i.ibb.co/ccmJHX66/ccmJHX66.png" },
+        { name: "Satbaria Young Star", logo: "https://i.ibb.co/JjQYyJ7v/JjQYyJ7v.png" }, // Titian's logo used here
+        { name: "Satbaria Royals", logo: "https://i.ibb.co/C56TqhH6/C56TqhH6.png" },
+        { name: "Satbaria King's", logo: "https://i.ibb.co/gZ2KY94x/gZ2KY94x.png" },
+        { name: "Satbaria Titians", logo: "https://i.ibb.co/wZXW4VB1/wZXW4VB1.png" }, // Young Star's logo used here
+        { name: "Satbaria Lion's", logo: "https://i.ibb.co/LD7dGK8h/LD7dGK8h.png" }
+    ];
+
+    let matchCounts = teamDatabase.map(() => 0);
+
+    function createRowHtml(teamIdx) {
+        matchCounts[teamIdx]++;
+        return `<div class="input-row"><span class="match-no">M-${matchCounts[teamIdx]}</span><input type="number" class="rf${teamIdx}" oninput="updateStandings()" placeholder="R"><input type="number" step="0.1" class="of${teamIdx}" oninput="updateStandings()" placeholder="O"> <span style="color:#ccc">v</span> <input type="number" class="ra${teamIdx}" oninput="updateStandings()" placeholder="R"><input type="number" step="0.1" class="oa${teamIdx}" oninput="updateStandings()" placeholder="O"></div>`;
+    }
+
+    const inputArea = document.getElementById('teamInputArea');
+    teamDatabase.forEach((t, i) => {
+        const div = document.createElement('div');
+        div.className = 'team-card';
+        div.innerHTML = `<div class="team-info"><img src="${t.logo}"><strong>${t.name}</strong><button class="add-btn" onclick="addMatch(${i})">+ Match</button></div><div id="matches${i}">${createRowHtml(i)}</div>`;
+        inputArea.appendChild(div);
+    });
+
+    function addMatch(id) {
+        document.getElementById(`matches${id}`).insertAdjacentHTML('beforeend', createRowHtml(id));
+        updateStandings();
+    }
+
+    function overToDec(ov) {
+        let w = Math.floor(ov), b = Math.round((ov - w) * 10);
+        return w + (b / 6);
+    }
+
+    function updateStandings() {
+        let data = [];
+        teamDatabase.forEach((t, i) => {
+            let rf = document.querySelectorAll(`.rf${i}`), of = document.querySelectorAll(`.of${i}`), ra = document.querySelectorAll(`.ra${i}`), oa = document.querySelectorAll(`.oa${i}`);
+            let w=0, l=0, tie=0, matches=0, tRf=0, tOf=0, tRa=0, tOa=0;
+            rf.forEach((el, j) => {
+                let runs = parseFloat(el.value), opp = parseFloat(ra[j].value);
+                if(!isNaN(runs) && !isNaN(opp)) {
+                    matches++; tRf += runs; tOf += overToDec(parseFloat(of[j].value) || 0);
+                    tRa += opp; tOa += overToDec(parseFloat(oa[j].value) || 0);
+                    if(runs > opp) w++; else if (runs < opp) l++; else tie++;
+                }
+            });
+            let nrr = (tOf > 0 && tOa > 0) ? (tRf / tOf) - (tRa / tOa) : 0;
+            data.push({ name: t.name, logo: t.logo, m: matches, w, l, tie, pts: (w * 2) + tie, nrr });
+        });
+
+        data.sort((a, b) => b.pts - a.pts || b.nrr - a.nrr);
+        const tbody = document.getElementById('standingsContent');
+        tbody.innerHTML = "";
+        data.forEach((r, idx) => {
+            tbody.innerHTML += `<tr class="${idx < 2 ? 'top-rank' : ''}"><td class="rank-col">${idx+1}</td><td><div class="team-col"><img src="${r.logo}"><span class="team-name-label">${r.name}</span></div></td><td>${r.m}</td><td class="win-cell">${r.w}</td><td class="loss-cell">${r.l}</td><td>${r.tie}</td><td class="pts-col">${r.pts}</td><td class="nrr-col" style="color:${r.nrr >= 0 ? 'var(--win-green)' : 'var(--loss-red)'}">${(r.nrr > 0 ? '+' : '') + r.nrr.toFixed(3)}</td></tr>`;
+        });
+    }
+
+    function takeScreenshot() {
+        const captureArea = document.getElementById('captureArea');
+        const options = {
+            useCORS: true,
+            scale: 4,
+            allowTaint: false,
+            backgroundColor: "#ffffff",
+            scrollX: 0,
+            scrollY: -window.scrollY
+        };
+
+        html2canvas(captureArea, options).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'SPL_Season_05_HD_Table.png';
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        }).catch(err => {
+            console.error("Download failed:", err);
+            alert("কিছু একটা ভুল হয়েছে! আবার চেষ্টা করুন।");
+        });
+    }
+
+    window.onload = updateStandings;
+</script>
+</body>
+</html>
