@@ -13,6 +13,7 @@
             --icc-gold: #d4a017;
             --win-green: #1a7d1a;
             --loss-red: #c62828;
+            --fb-blue: #1877F2;
         }
 
         body { 
@@ -23,7 +24,7 @@
         }
 
         .container { 
-            max-width: 850px; /* ক্যাপচার এরিয়ার সমান উইথ */
+            max-width: 850px; 
             margin: auto; 
             background: #fff; 
             padding: 10px; 
@@ -51,9 +52,9 @@
         .add-btn { margin-left: auto; background: var(--icc-blue); color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold; }
         input { width: 45px; padding: 4px; border: 1px solid #cbd5e1; border-radius: 3px; text-align: center; font-size: 11px; font-weight: bold; margin: 2px; }
 
-        /* --- Capture Area Fixed --- */
+        /* Capture Area */
         #captureArea { 
-            width: 850px; /* ফিক্সড উইথ যাতে হেডার ও টেবিল সমান থাকে */
+            width: 850px; 
             background: #fff; 
             margin: 15px auto;
             border: 1px solid #ddd;
@@ -88,10 +89,11 @@
         .win-cell { color: var(--win-green) !important; }
         .loss-cell { color: var(--loss-red) !important; }
 
-        .btn-download { width: 100%; padding: 12px; background: #059669; color: white; border: none; border-radius: 5px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+        .button-group { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-download { flex: 1; padding: 12px; background: #059669; color: white; border: none; border-radius: 5px; font-weight: 800; cursor: pointer; }
+        .btn-share { flex: 1; padding: 12px; background: var(--fb-blue); color: white; border: none; border-radius: 5px; font-weight: 800; cursor: pointer; }
+        
         .icc-footer { background: var(--icc-blue); color: rgba(255,255,255,0.7); padding: 8px; text-align: center; font-size: 11px; border-top: 2px solid var(--icc-gold); }
-
-        /* মোবাইল স্ক্রিনে টেবিল স্ক্রল করার জন্য */
         .table-wrapper { width: 100%; overflow-x: auto; }
     </style>
 </head>
@@ -105,8 +107,13 @@
     </div>
 
     <button class="reset-btn" onclick="resetAllData()">RESET ALL DATA</button>
+    
     <div id="teamInputArea"></div>
-    <button class="btn-download" onclick="takeScreenshot()">DOWNLOAD POINT TABLE</button>
+
+    <div class="button-group">
+        <button class="btn-download" onclick="takeScreenshot()">DOWNLOAD TABLE</button>
+        <button class="btn-share" onclick="shareToSocial()">SHARE POINTS TABLE</button>
+    </div>
 
     <div class="table-wrapper">
         <div id="captureArea">
@@ -253,6 +260,7 @@
         });
     }
 
+    // স্ক্রিনশট ফাংশন
     function takeScreenshot() {
         const captureArea = document.getElementById('captureArea');
         html2canvas(captureArea, { useCORS: true, scale: 3 }).then(canvas => {
@@ -261,6 +269,30 @@
             link.href = canvas.toDataURL();
             link.click();
         });
+    }
+
+    // সোশ্যাল মিডিয়া শেয়ারিং ফাংশন
+    async function shareToSocial() {
+        const captureArea = document.getElementById('captureArea');
+        const canvas = await html2canvas(captureArea, { useCORS: true, scale: 2 });
+        const dataUrl = canvas.toDataURL('image/png');
+        
+        const blob = await (await fetch(dataUrl)).blob();
+        const file = new File([blob], 'SPL_Points_Table.png', { type: 'image/png' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+                await navigator.share({
+                    files: [file],
+                    title: 'SPL Season 05 Points Table',
+                    text: 'Check out the Satbaria Premier League Points Table Update!',
+                });
+            } catch (error) {
+                console.log('Error sharing:', error);
+            }
+        } else {
+            alert("আপনার ব্রাউজারে শেয়ারিং অপশন সাপোর্ট করছে না। দয়া করে ইমেজটি ডাউনলোড করে ম্যানুয়ালি শেয়ার করুন।");
+        }
     }
 
     window.onload = () => {
