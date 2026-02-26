@@ -23,15 +23,14 @@
         }
 
         .container { 
-            max-width: 900px; 
+            max-width: 850px; /* ক্যাপচার এরিয়ার সমান উইথ */
             margin: auto; 
             background: #fff; 
             padding: 10px; 
             border-radius: 10px; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1); 
         }
 
-        /* Admin Input UI */
+        /* Admin UI */
         .admin-header { 
             display: flex; 
             justify-content: space-between; 
@@ -44,20 +43,21 @@
             border-bottom: 3px solid var(--icc-gold); 
         }
         .admin-header img { width: 35px; height: 35px; border-radius: 50%; background: #fff; padding: 2px; }
+        
+        .reset-btn { background: #e11d48; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 10px; font-size: 11px; }
         .team-card { border: 1px solid #e2e8f0; padding: 8px; margin-bottom: 8px; border-radius: 6px; background: #f8fafc; }
-        .team-info { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+        .team-info { display: flex; align-items: center; gap: 10px; }
         .team-info img { width: 30px; height: 30px; border-radius: 50%; }
         .add-btn { margin-left: auto; background: var(--icc-blue); color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold; }
-        input { width: 50px; padding: 4px; border: 1px solid #cbd5e1; border-radius: 3px; text-align: center; font-size: 11px; font-weight: bold; margin: 2px; }
+        input { width: 45px; padding: 4px; border: 1px solid #cbd5e1; border-radius: 3px; text-align: center; font-size: 11px; font-weight: bold; margin: 2px; }
 
-        /* --- RESPONSIVE CAPTURE AREA --- */
+        /* --- Capture Area Fixed --- */
         #captureArea { 
-            width: 100%; 
-            max-width: 850px; 
+            width: 850px; /* ফিক্সড উইথ যাতে হেডার ও টেবিল সমান থাকে */
             background: #fff; 
-            overflow-x: auto; /* মোবাইলে টেবিলটি স্ক্রল করার সুবিধা */
-            border: 1px solid #ddd; 
             margin: 15px auto;
+            border: 1px solid #ddd;
+            overflow: hidden;
         }
         
         .icc-header { 
@@ -69,41 +69,30 @@
             display: flex; 
             align-items: center; 
             justify-content: space-between;
-            min-width: 800px; /* ক্যাপচারের সময় যেনHeader সংকুচিত না হয় */
         }
         .icc-header img { width: 80px; height: 80px; border-radius: 50%; background: #fff; padding: 3px; }
         
         .title-stack h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; margin: 0; text-transform: uppercase; line-height: 1; }
         .title-stack .tagline { background: var(--icc-gold); color: #000; padding: 2px 15px; font-weight: 900; font-size: 14px; display: inline-block; margin-top: 5px; }
 
-        .icc-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        .icc-table { width: 100%; border-collapse: collapse; }
         .icc-table th { background: #f1f5f9; color: #475569; padding: 10px 5px; font-size: 12px; text-transform: uppercase; font-weight: 800; border-bottom: 2px solid #e2e8f0; }
-        
         .icc-table td { padding: 8px 5px; text-align: center; font-size: 16px; font-weight: 700; color: #1e293b; border-bottom: 1px solid #f1f5f9; }
 
-        .rank-col { width: 35px; color: #94a3b8; font-style: italic; font-size: 14px; }
-        
-        .team-col { display: flex; align-items: center; gap: 12px; text-align: left; padding-left: 15px; white-space: nowrap; }
-        .team-col img { width: 36px; height: 36px; object-fit: contain; }
+        .team-col { display: flex; align-items: center; gap: 12px; text-align: left; padding-left: 15px; }
+        .team-col img { width: 36px; height: 36px; }
         .team-name-label { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; color: var(--icc-blue); text-transform: uppercase; }
 
         .top-rank { background: #fffef5 !important; }
         .pts-col { background: rgba(0, 30, 58, 0.04); font-size: 18px !important; color: #000; }
-        .nrr-col { font-size: 15px; font-weight: 500; }
-
-        /* Color classes */
         .win-cell { color: var(--win-green) !important; }
         .loss-cell { color: var(--loss-red) !important; }
 
-        .btn-download { width: 100%; padding: 12px; background: #059669; color: white; border: none; border-radius: 5px; font-weight: 800; font-size: 14px; cursor: pointer; margin-top: 10px; }
-        .icc-footer { background: var(--icc-blue); color: rgba(255,255,255,0.7); padding: 8px; text-align: center; font-size: 11px; border-top: 2px solid var(--icc-gold); min-width: 800px; }
+        .btn-download { width: 100%; padding: 12px; background: #059669; color: white; border: none; border-radius: 5px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+        .icc-footer { background: var(--icc-blue); color: rgba(255,255,255,0.7); padding: 8px; text-align: center; font-size: 11px; border-top: 2px solid var(--icc-gold); }
 
-        /* Mobile specific adjustments for UI */
-        @media (max-width: 600px) {
-            .admin-header h4 { font-size: 12px; }
-            .team-info strong { font-size: 13px; }
-            .input-row input { width: 40px; font-size: 10px; }
-        }
+        /* মোবাইল স্ক্রিনে টেবিল স্ক্রল করার জন্য */
+        .table-wrapper { width: 100%; overflow-x: auto; }
     </style>
 </head>
 <body>
@@ -111,46 +100,48 @@
 <div class="container">
     <div class="admin-header">
         <img src="https://i.ibb.co/7JnnPxRw/IMG-20260226-152000-780.jpg">
-        <div style="text-align: center;"><h4 style="margin:0">SATBARIA PREMIER LEAGUE 2026 (ADMIN)</h4></div>
+        <h4 style="margin:0">SATBARIA PREMIER LEAGUE 2026</h4>
         <img src="https://i.ibb.co/Kjp8SvLJ/Kjp8SvLJ.png">
     </div>
 
+    <button class="reset-btn" onclick="resetAllData()">RESET ALL DATA</button>
     <div id="teamInputArea"></div>
     <button class="btn-download" onclick="takeScreenshot()">DOWNLOAD HD POINT TABLE</button>
 
-    <div id="captureArea">
-        <div class="icc-header">
-            <img src="https://i.ibb.co/7JnnPxRw/IMG-20260226-152000-780.jpg">
-            <div class="title-stack">
-                <h1>SATBARIA PREMIER LEAGUE 2026</h1>
-                <h1 style="color:#F00C68; font-size: 30px;">SEASON 05</h1>
-                <div class="tagline">POINTS TABLE</div>
+    <div class="table-wrapper">
+        <div id="captureArea">
+            <div class="icc-header">
+                <img src="https://i.ibb.co/7JnnPxRw/IMG-20260226-152000-780.jpg">
+                <div class="title-stack">
+                    <h1>SATBARIA PREMIER LEAGUE 2026</h1>
+                    <h1 style="color:#F00C68; font-size: 30px;">SEASON 05</h1>
+                    <div class="tagline">POINTS TABLE</div>
+                </div>
+                <img src="https://i.ibb.co/Kjp8SvLJ/Kjp8SvLJ.png">
             </div>
-            <img src="https://i.ibb.co/Kjp8SvLJ/Kjp8SvLJ.png">
+
+            <table class="icc-table">
+                <thead>
+                    <tr>
+                        <th width="40">POS</th>
+                        <th style="text-align:left; padding-left:45px;">TEAM SQUAD</th>
+                        <th width="50">PLD</th>
+                        <th width="50">W</th>
+                        <th width="50">L</th>
+                        <th width="50">D</th>
+                        <th width="70">PTS</th>
+                        <th width="100">NRR</th>
+                    </tr>
+                </thead>
+                <tbody id="standingsContent"></tbody>
+            </table>
+
+            <div class="icc-footer">OFFICIAL POINT TABLE | SATBARIA SOMAJ UNNOYON JUBO SHONGO</div>
         </div>
-
-        <table class="icc-table">
-            <thead>
-                <tr>
-                    <th width="40">POS</th>
-                    <th style="text-align:left; padding-left:45px;">TEAM SQUAD</th>
-                    <th width="50">PLD</th>
-                    <th width="50">W</th>
-                    <th width="50">L</th>
-                    <th width="50">D</th>
-                    <th width="70">PTS</th>
-                    <th width="100">NRR</th>
-                </tr>
-            </thead>
-            <tbody id="standingsContent"></tbody>
-        </table>
-
-        <div class="icc-footer">OFFICIAL POINT TABLE | SATBARIA SOMAJ UNNOYON JUBO SHONGO</div>
     </div>
 </div>
 
 <script>
-    // Corrected Logos
     const teamDatabase = [
         { name: "Satbaria Super Star", logo: "https://i.ibb.co/ccmJHX66/ccmJHX66.png" },
         { name: "Satbaria Young Star", logo: "https://i.ibb.co/JjQYyJ7v/JjQYyJ7v.png" }, 
@@ -160,11 +151,14 @@
         { name: "Satbaria Lion's", logo: "https://i.ibb.co/LD7dGK8h/LD7dGK8h.png" }
     ];
 
-    let matchCounts = teamDatabase.map(() => 0);
-
-    function createRowHtml(teamIdx) {
-        matchCounts[teamIdx]++;
-        return `<div class="input-row"><span style="font-size:10px; color:#666">M${matchCounts[teamIdx]}:</span> <input type="number" class="rf${teamIdx}" oninput="updateStandings()" placeholder="R"> <input type="number" step="0.1" class="of${teamIdx}" oninput="updateStandings()" placeholder="O"> <span style="color:#ccc">v</span> <input type="number" class="ra${teamIdx}" oninput="updateStandings()" placeholder="R"> <input type="number" step="0.1" class="oa${teamIdx}" oninput="updateStandings()" placeholder="O"></div>`;
+    function createRowHtml(teamIdx, rf='', of='', ra='', oa='') {
+        return `<div class="input-row">
+            <input type="number" class="rf${teamIdx}" oninput="updateStandings(); saveData()" value="${rf}" placeholder="R"> 
+            <input type="number" step="0.1" class="of${teamIdx}" oninput="updateStandings(); saveData()" value="${of}" placeholder="O"> 
+            <span style="color:#ccc">v</span> 
+            <input type="number" class="ra${teamIdx}" oninput="updateStandings(); saveData()" value="${ra}" placeholder="R"> 
+            <input type="number" step="0.1" class="oa${teamIdx}" oninput="updateStandings(); saveData()" value="${oa}" placeholder="O">
+        </div>`;
     }
 
     const inputArea = document.getElementById('teamInputArea');
@@ -178,11 +172,51 @@
     function addMatch(id) {
         document.getElementById(`matches${id}`).insertAdjacentHTML('beforeend', createRowHtml(id));
         updateStandings();
+        saveData();
     }
 
     function overToDec(ov) {
         let w = Math.floor(ov), b = Math.round((ov - w) * 10);
+        if(b > 5) b = 5;
         return w + (b / 6);
+    }
+
+    function saveData() {
+        let allData = [];
+        teamDatabase.forEach((_, i) => {
+            let teamMatches = [];
+            let rf = document.querySelectorAll(`.rf${i}`), of = document.querySelectorAll(`.of${i}`), ra = document.querySelectorAll(`.ra${i}`), oa = document.querySelectorAll(`.oa${i}`);
+            rf.forEach((el, j) => {
+                if(el.value || ra[j].value) {
+                    teamMatches.push({ rf: el.value, of: of[j].value, ra: ra[j].value, oa: oa[j].value });
+                }
+            });
+            allData.push(teamMatches);
+        });
+        localStorage.setItem('spl_data_final', JSON.stringify(allData));
+    }
+
+    function loadSavedData() {
+        const saved = localStorage.getItem('spl_data_final');
+        if (saved) {
+            const allMatches = JSON.parse(saved);
+            allMatches.forEach((matches, teamIdx) => {
+                if(matches.length > 0) {
+                    const container = document.getElementById(`matches${teamIdx}`);
+                    container.innerHTML = "";
+                    matches.forEach(m => {
+                        container.insertAdjacentHTML('beforeend', createRowHtml(teamIdx, m.rf, m.of, m.ra, m.oa));
+                    });
+                }
+            });
+        }
+    }
+
+    function resetAllData() {
+        if(confirm("সব ডাটা মুছে যাবে! আপনি কি নিশ্চিত?")) {
+            localStorage.removeItem('spl_data_final');
+            location.reload();
+        }
     }
 
     function updateStandings() {
@@ -206,7 +240,7 @@
         const tbody = document.getElementById('standingsContent');
         tbody.innerHTML = "";
         data.forEach((r, idx) => {
-            tbody.innerHTML += `<tr class="${idx < 2 ? 'top-rank' : ''}">
+            tbody.innerHTML += `<tr class="${idx < 4 ? 'top-rank' : ''}">
                 <td class="rank-col">${idx+1}</td>
                 <td><div class="team-col"><img src="${r.logo}"><span class="team-name-label">${r.name}</span></div></td>
                 <td>${r.m}</td>
@@ -214,32 +248,25 @@
                 <td class="loss-cell">${r.l}</td>
                 <td>${r.tie}</td>
                 <td class="pts-col">${r.pts}</td>
-                <td class="nrr-col" style="color:${r.nrr >= 0 ? 'var(--win-green)' : 'var(--loss-red)'}">${(r.nrr > 0 ? '+' : '') + r.nrr.toFixed(3)}</td>
+                <td style="color:${r.nrr >= 0 ? 'var(--win-green)' : 'var(--loss-red)'}">${(r.nrr >= 0 ? '+' : '') + r.nrr.toFixed(3)}</td>
             </tr>`;
         });
     }
 
     function takeScreenshot() {
         const captureArea = document.getElementById('captureArea');
-        
-        // ক্যাপচারের সময় যেন টেবিলটি পুরো উইথ নিয়ে আসে
-        const options = {
-            useCORS: true,
-            scale: 3, 
-            backgroundColor: "#ffffff",
-            width: 850, // ক্যাপচারের জন্য ফিক্সড উইথ নিশ্চিত করা
-            windowWidth: 850
-        };
-
-        html2canvas(captureArea, options).then(canvas => {
+        html2canvas(captureArea, { useCORS: true, scale: 3 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'SPL_Point_Table_HD.png';
-            link.href = canvas.toDataURL('image/png', 1.0);
+            link.download = 'SPL_Point_Table.png';
+            link.href = canvas.toDataURL();
             link.click();
         });
     }
 
-    window.onload = updateStandings;
+    window.onload = () => {
+        loadSavedData();
+        updateStandings();
+    };
 </script>
 </body>
 </html>
