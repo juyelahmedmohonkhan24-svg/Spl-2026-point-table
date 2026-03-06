@@ -6,86 +6,97 @@
     <title>SPL Season 05 - Point Table</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Roboto:wght@400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Roboto:wght@400;700;900&display=swap');
 
         :root { 
             --icc-blue: #001e3a;
             --icc-gold: #d4a017;
             --win-green: #1a7d1a;
             --loss-red: #c62828;
-            --fb-blue: #1877F2;
+            --highlight-bg: #fff9db; /* প্রথম ২ দলের জন্য হালকা গোল্ডেন ব্যাকগ্রাউন্ড */
         }
 
-        body { font-family: 'Roboto', sans-serif; background-color: #cbd5e0; padding: 10px; margin: 0; }
-        .container { max-width: 850px; margin: auto; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        body { font-family: 'Roboto', sans-serif; background-color: #f1f5f9; padding: 10px; margin: 0; }
+        .container { max-width: 850px; margin: auto; box-sizing: border-box; }
 
-        /* Admin UI */
-        .admin-header { display: flex; justify-content: space-between; align-items: center; background: var(--icc-blue); padding: 12px; border-radius: 8px; color: white; margin-bottom: 20px; border-bottom: 4px solid var(--icc-gold); }
-        .admin-header img { width: 40px; height: 40px; border-radius: 50%; background: #fff; padding: 2px; }
-        .admin-header h4 { margin: 0; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .reset-btn { background: #e11d48; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 15px; font-size: 12px; transition: 0.3s; }
-        .reset-btn:hover { background: #be123c; }
+        /* --- Admin UI Header --- */
+        .admin-header { display: flex; justify-content: space-between; align-items: center; background: var(--icc-blue); padding: 10px; border-radius: 8px; color: white; margin-bottom: 15px; border-bottom: 4px solid var(--icc-gold); }
+        .admin-header img { width: 35px; height: 35px; border-radius: 50%; background: #fff; }
+        .admin-header h4 { margin: 0; font-size: 14px; text-transform: uppercase; flex: 1; text-align: center; }
 
-        .team-card { border: 1px solid #e2e8f0; padding: 12px; margin-bottom: 12px; border-radius: 10px; background: #f8fafc; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .team-info { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
-        .team-info img { width: 35px; height: 35px; border-radius: 50%; }
-        .team-info strong { font-size: 15px; color: var(--icc-blue); }
-        .add-btn { margin-left: auto; background: var(--icc-blue); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
-        
-        /* Input Row - এক লাইনে রাখার জন্য ফ্লেক্সবক্স */
+        /* --- Input Card Design (Fixed Width) --- */
+        .team-card { background: #fff; border-radius: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; overflow: hidden; }
+        .team-header { display: flex; align-items: center; gap: 10px; padding: 10px 15px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        .team-header img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+        .team-header strong { font-size: 14px; color: var(--icc-blue); flex: 1; text-transform: uppercase; }
+        .add-btn { background: var(--icc-blue); color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 10px; font-weight: bold; }
+
+        .match-container { padding: 10px; }
+
+        /* ইনপুট বক্স যাতে বাইরে না যায় */
         .input-row { 
             display: flex; 
             align-items: center; 
-            justify-content: flex-start;
-            gap: 6px; 
-            margin-top: 8px; 
+            justify-content: space-between;
+            gap: 5px; 
             background: #fff; 
-            padding: 8px; 
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            overflow-x: auto; /* মোবাইলে জায়গা না হলে স্ক্রল করবে, ভাঙবে না */
+            padding: 8px 5px; 
+            border: 1px solid #f1f5f9;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            width: 100%;
         }
 
+        .side { display: flex; align-items: center; gap: 4px; flex: 1; justify-content: center; }
+        .box-group { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .label { font-size: 8px; font-weight: 900; color: #94a3b8; text-transform: uppercase; }
+
         input[type="number"] { 
-            width: 50px; 
-            padding: 7px; 
+            width: 45px; 
+            padding: 6px 2px; 
             border: 1px solid #cbd5e1; 
             border-radius: 4px; 
             text-align: center; 
-            font-size: 13px; 
+            font-size: 12px; 
             font-weight: 700; 
         }
 
-        .ao-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--loss-red); }
-        .vs-text { font-weight: 900; color: #94a3b8; font-size: 12px; margin: 0 4px; }
+        .ao-check { width: 16px; height: 16px; accent-color: var(--loss-red); }
+        .vs { font-weight: 900; color: #cbd5e1; font-size: 10px; }
 
-        /* Capture Area (ইমেজ তৈরির জন্য) */
-        #captureArea { width: 850px; background: #fff; margin: 20px auto; border: 1px solid #ddd; overflow: hidden; }
+        /* --- Table/Capture Area --- */
+        .table-wrapper { width: 100%; overflow-x: auto; margin-top: 20px; border-radius: 12px; }
+        #captureArea { width: 850px; background: #fff; }
+        
         .icc-header { background: var(--icc-blue); color: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--icc-gold); display: flex; align-items: center; justify-content: space-between; }
-        .icc-header img { width: 90px; height: 90px; border-radius: 50%; background: #fff; padding: 4px; }
-        .title-stack h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 42px; margin: 0; text-transform: uppercase; line-height: 1; }
-        .title-stack .tagline { background: var(--icc-gold); color: #000; padding: 4px 25px; font-weight: 900; font-size: 18px; display: inline-block; margin-top: 10px; }
+        .icc-header img { width: 80px; height: 80px; border-radius: 50%; background: #fff; padding: 3px; }
+        .title-stack h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 38px; margin: 0; text-transform: uppercase; line-height: 1; }
+        .tagline { background: var(--icc-gold); color: #000; padding: 4px 20px; font-weight: 900; font-size: 16px; display: inline-block; margin-top: 10px; }
 
         .icc-table { width: 100%; border-collapse: collapse; }
-        .icc-table th { background: #f1f5f9; color: #475569; padding: 15px 5px; font-size: 14px; text-transform: uppercase; font-weight: 800; border-bottom: 2px solid #e2e8f0; }
-        .icc-table td { padding: 12px 5px; text-align: center; font-size: 18px; font-weight: 700; color: #1e293b; border-bottom: 1px solid #f1f5f9; }
+        .icc-table th { background: #f8fafc; color: #475569; padding: 12px 5px; font-size: 12px; text-transform: uppercase; border-bottom: 2px solid #e2e8f0; }
+        .icc-table td { padding: 10px 5px; text-align: center; font-size: 18px; font-weight: 700; border-bottom: 1px solid #f1f5f9; }
         
-        .team-col { display: flex; align-items: center; gap: 15px; text-align: left; padding-left: 20px; }
-        .team-col img { width: 40px; height: 40px; }
-        .team-name-label { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; color: var(--icc-blue); text-transform: uppercase; }
-        
-        .top-rank { background: #fffef5 !important; }
-        .pts-col { background: rgba(0, 30, 58, 0.04); font-size: 20px !important; color: #000; }
-        .win-cell { color: var(--win-green) !important; }
-        .loss-cell { color: var(--loss-red) !important; }
+        /* প্রথম ২ দলের হাইলাইট */
+        .top-two { background-color: var(--highlight-bg) !important; border-left: 5px solid var(--icc-gold); }
 
-        .button-group { display: flex; gap: 15px; margin-top: 15px; }
-        .btn-download { flex: 1; padding: 15px; background: #059669; color: white; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 14px; }
-        .btn-share { flex: 1; padding: 15px; background: var(--fb-blue); color: white; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 14px; }
+        .team-col { display: flex; align-items: center; gap: 10px; text-align: left; padding-left: 20px; }
+        .team-col img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; background: #fff; }
+        .team-name-label { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; color: var(--icc-blue); }
         
-        .icc-footer { background: var(--icc-blue); color: rgba(255,255,255,0.8); padding: 12px; text-align: center; font-size: 13px; border-top: 3px solid var(--icc-gold); }
-        .table-wrapper { width: 100%; overflow-x: auto; border: 1px solid #eee; border-radius: 8px; }
+        /* কালার কোড */
+        .win-cell { color: var(--win-green); }
+        .loss-cell { color: var(--loss-red); }
+        .pts-col { background: rgba(0, 30, 58, 0.05); color: #000; }
+
+        .icc-footer { background: var(--icc-blue); color: #fff; padding: 10px; text-align: center; font-size: 11px; }
+
+        .button-group { display: flex; gap: 10px; margin: 20px 0; }
+        .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; text-transform: uppercase; }
+        .btn-download { background: #059669; }
+        .btn-share { background: var(--fb-blue); }
     </style>
 </head>
 <body>
@@ -93,16 +104,17 @@
 <div class="container">
     <div class="admin-header">
         <img src="https://i.ibb.co/7JnnPxRw/IMG-20260226-152000-780.jpg">
-        <h4>SATBARIA PREMIER LEAGUE 2026</h4>
+        <h4>SPL 2026 ADMIN PANEL</h4>
         <img src="https://i.ibb.co/Kjp8SvLJ/Kjp8SvLJ.png">
     </div>
 
-    <button class="reset-btn" onclick="resetAllData()">RESET ALL DATA</button>
+    <button onclick="resetAllData()" style="width:100%; padding:10px; margin-bottom:15px; background:#ef4444; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">RESET ALL DATA</button>
+
     <div id="teamInputArea"></div>
 
     <div class="button-group">
-        <button class="btn-download" onclick="takeScreenshot()">DOWNLOAD TABLE IMAGE</button>
-        <button class="btn-share" onclick="shareToSocial()">SHARE TO FACEBOOK/WHATSAPP</button>
+        <button class="btn btn-download" onclick="takeScreenshot()">Download Points Table</button>
+        <button class="btn btn-share" onclick="shareToSocial()">Share Table</button>
     </div>
 
     <div class="table-wrapper">
@@ -110,24 +122,23 @@
             <div class="icc-header">
                 <img src="https://i.ibb.co/7JnnPxRw/IMG-20260226-152000-780.jpg">
                 <div class="title-stack">
-                    <h1>SATBARIA PREMIER LEAGUE 2026</h1>
-                    <h1 style="color:#F00C68; font-size: 35px;">SEASON 05</h1>
-                    <div class="tagline">POINTS TABLE</div>
+                    <h1>SATBARIA PREMIER LEAGUE</h1>
+                    <h1 style="color:#F00C68; font-size: 32px;">SEASON 05</h1>
+                    <div class="tagline">OFFICIAL POINTS TABLE</div>
                 </div>
                 <img src="https://i.ibb.co/Kjp8SvLJ/Kjp8SvLJ.png">
             </div>
-
             <table class="icc-table">
                 <thead>
                     <tr>
-                        <th width="50">POS</th>
-                        <th style="text-align:left; padding-left:45px;">TEAM SQUAD</th>
-                        <th width="60">PLD</th>
-                        <th width="60">W</th>
-                        <th width="60">L</th>
-                        <th width="60">D</th>
-                        <th width="80">PTS</th>
-                        <th width="120">NRR</th>
+                        <th width="40">POS</th>
+                        <th style="text-align:left; padding-left:40px;">TEAM SQUAD</th>
+                        <th width="50">PLD</th>
+                        <th width="50" style="color:var(--win-green)">W</th>
+                        <th width="50" style="color:var(--loss-red)">L</th>
+                        <th width="50">D</th>
+                        <th width="70">PTS</th>
+                        <th width="100">NRR</th>
                     </tr>
                 </thead>
                 <tbody id="standingsContent"></tbody>
@@ -140,22 +151,26 @@
 <script>
     const teamDatabase = [
         { name: "Satbaria Super Star", logo: "https://i.ibb.co/ccmJHX66/ccmJHX66.png" },
-        { name: "Satbaria Young Star", logo: "https://i.ibb.co/JjQYyJ7v/JjQYyJ7v.png" }, 
+        { name: "Satbaria Young Star", logo: "https://i.ibb.co/DDHT4dyN/DDHT4dyN.png" }, 
         { name: "Satbaria Royals", logo: "https://i.ibb.co/C56TqhH6/C56TqhH6.png" },
-        { name: "Satbaria King's", logo: "https://i.ibb.co/gZ2KY94x/gZ2KY94x.png" },
-        { name: "Satbaria Titians", logo: "https://i.ibb.co/wZXW4VB1/wZXW4VB1.png" }, 
+        { name: "Satbaria Super King's", logo: "https://i.ibb.co/Cph4V7sD/Cph4V7sD.png" },
+        { name: "Satbaria Rider's", logo: "https://i.ibb.co/qYPKNhPj/qYPKNhPj.png" }, 
         { name: "Satbaria Lion's", logo: "https://i.ibb.co/LD7dGK8h/LD7dGK8h.png" }
     ];
 
     function createRowHtml(teamIdx, rf='', of='', ra='', oa='', aof=false, aoa=false) {
         return `<div class="input-row">
-            <input type="number" class="rf${teamIdx}" oninput="updateStandings(); saveData()" value="${rf}" placeholder="RUN"> 
-            <input type="number" step="0.1" class="of${teamIdx}" oninput="updateStandings(); saveData()" value="${of}" placeholder="OVR"> 
-            <input type="checkbox" class="ao-checkbox aof${teamIdx}" onchange="updateStandings(); saveData()" ${aof?'checked':''}>
-            <span class="vs-text">VS</span> 
-            <input type="number" class="ra${teamIdx}" oninput="updateStandings(); saveData()" value="${ra}" placeholder="RUN"> 
-            <input type="number" step="0.1" class="oa${teamIdx}" oninput="updateStandings(); saveData()" value="${oa}" placeholder="OVR">
-            <input type="checkbox" class="ao-checkbox aoa${teamIdx}" onchange="updateStandings(); saveData()" ${aoa?'checked':''}>
+            <div class="side">
+                <div class="box-group"><span class="label">Runs</span><input type="number" class="rf${teamIdx}" oninput="updateStandings(); saveData()" value="${rf}" placeholder="0"></div>
+                <div class="box-group"><span class="label">Overs</span><input type="number" step="0.1" class="of${teamIdx}" oninput="updateStandings(); saveData()" value="${of}" placeholder="0.0"></div>
+                <div class="box-group"><span class="label">AO</span><input type="checkbox" class="ao-check aof${teamIdx}" onchange="updateStandings(); saveData()" ${aof?'checked':''}></div>
+            </div>
+            <span class="vs">VS</span> 
+            <div class="side">
+                <div class="box-group"><span class="label">AO</span><input type="checkbox" class="ao-check aoa${teamIdx}" onchange="updateStandings(); saveData()" ${aoa?'checked':''}></div>
+                <div class="box-group"><span class="label">Runs</span><input type="number" class="ra${teamIdx}" oninput="updateStandings(); saveData()" value="${ra}" placeholder="0"></div>
+                <div class="box-group"><span class="label">Overs</span><input type="number" step="0.1" class="oa${teamIdx}" oninput="updateStandings(); saveData()" value="${oa}" placeholder="0.0"></div>
+            </div>
         </div>`;
     }
 
@@ -163,14 +178,13 @@
     teamDatabase.forEach((t, i) => {
         const div = document.createElement('div');
         div.className = 'team-card';
-        div.innerHTML = `<div class="team-info"><img src="${t.logo}"><strong>${t.name}</strong><button class="add-btn" onclick="addMatch(${i})">+ Match</button></div><div id="matches${i}">${createRowHtml(i)}</div>`;
+        div.innerHTML = `<div class="team-header"><img src="${t.logo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3503/3503565.png'"><strong>${t.name}</strong><button class="add-btn" onclick="addMatch(${i})">+ ADD MATCH</button></div><div id="matches${i}" class="match-container">${createRowHtml(i)}</div>`;
         inputArea.appendChild(div);
     });
 
     function addMatch(id) {
         document.getElementById(`matches${id}`).insertAdjacentHTML('beforeend', createRowHtml(id));
-        updateStandings();
-        saveData();
+        updateStandings(); saveData();
     }
 
     function overToDec(ov, isAllOut) {
@@ -193,11 +207,11 @@
             });
             allData.push(teamMatches);
         });
-        localStorage.setItem('spl_data_v9_standard', JSON.stringify(allData));
+        localStorage.setItem('spl_v16_final', JSON.stringify(allData));
     }
 
     function loadSavedData() {
-        const saved = localStorage.getItem('spl_data_v9_standard');
+        const saved = localStorage.getItem('spl_v16_final');
         if (saved) {
             const allMatches = JSON.parse(saved);
             allMatches.forEach((matches, teamIdx) => {
@@ -213,8 +227,8 @@
     }
 
     function resetAllData() {
-        if(confirm("সব ডাটা মুছে যাবে! আপনি কি নিশ্চিত?")) {
-            localStorage.removeItem('spl_data_v9_standard');
+        if(confirm("সব ডাটা মুছে যাবে!")) {
+            localStorage.removeItem('spl_v16_final');
             location.reload();
         }
     }
@@ -236,15 +250,22 @@
             let nrr = (tOf > 0 && tOa > 0) ? (tRf / tOf) - (tRa / tOa) : 0;
             data.push({ name: t.name, logo: t.logo, m: matches, w, l, tie, pts: (w * 2) + tie, nrr });
         });
+        
         data.sort((a, b) => b.pts - a.pts || b.nrr - a.nrr);
+        
         const tbody = document.getElementById('standingsContent');
         tbody.innerHTML = "";
         data.forEach((r, idx) => {
-            tbody.innerHTML += `<tr class="${idx < 4 ? 'top-rank' : ''}">
+            const isTopTwo = idx < 2 ? 'top-two' : '';
+            tbody.innerHTML += `<tr class="${isTopTwo}">
                 <td>${idx+1}</td>
-                <td><div class="team-col"><img src="${r.logo}"><span class="team-name-label">${r.name}</span></div></td>
-                <td>${r.m}</td><td class="win-cell">${r.w}</td><td class="loss-cell">${r.l}</td><td>${r.tie}</td>
-                <td class="pts-col">${r.pts}</td><td style="color:${r.nrr >= 0 ? 'var(--win-green)' : 'var(--loss-red)'}">${(r.nrr >= 0 ? '+' : '') + r.nrr.toFixed(3)}</td>
+                <td><div class="team-col"><img src="${r.logo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3503/3503565.png'"><span class="team-name-label">${r.name}</span></div></td>
+                <td>${r.m}</td>
+                <td class="win-cell">${r.w}</td>
+                <td class="loss-cell">${r.l}</td>
+                <td>${r.tie}</td>
+                <td class="pts-col">${r.pts}</td>
+                <td style="color:${r.nrr >= 0 ? 'var(--win-green)' : 'var(--loss-red)'}">${(r.nrr >= 0 ? '+' : '') + r.nrr.toFixed(3)}</td>
             </tr>`;
         });
     }
@@ -253,8 +274,8 @@
         const captureArea = document.getElementById('captureArea');
         html2canvas(captureArea, { useCORS: true, scale: 3 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'SPL_Point_Table.png';
-            link.href = canvas.toDataURL();
+            link.download = 'SPL_Points_Table.png';
+            link.href = canvas.toDataURL('image/png');
             link.click();
         });
     }
@@ -266,8 +287,8 @@
         const blob = await (await fetch(dataUrl)).blob();
         const file = new File([blob], 'SPL_Points.png', { type: 'image/png' });
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try { await navigator.share({ files: [file], title: 'SPL Season 05 Points Table' }); } catch (e) {}
-        } else { alert("Sharing not supported, please download and share manually."); }
+            try { await navigator.share({ files: [file], title: 'SPL Points Table' }); } catch (e) {}
+        } else { alert("Sharing not supported."); }
     }
 
     window.onload = () => { loadSavedData(); updateStandings(); };
